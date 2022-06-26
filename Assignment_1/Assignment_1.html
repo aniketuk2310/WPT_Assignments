@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment_1</title>
+</head>
+
+<body>
+    <input type="text" placeholder="type number" id="tbox"><span id="ans"> Answer is</span><br><br>
+    <button type="button" id="add" disabled>add number</button>
+    <button type="button" id="edit" disabled>Change number</button>
+    <button type="button" id="delete" disabled>delete number</button>
+    <button type="button" id="viewall" disabled>show all numbers</button>
+    <button type="button" id="viewodd" disabled>view numbers in odd position</button>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+
+            console.log("all tags are interpreted by browser");
+
+            let arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+            const b1 = document.querySelector("#add");
+            const b2 = document.querySelector("#edit");
+            const b3 = document.querySelector("#delete");
+            const b4 = document.querySelector("#viewall");
+            const b5 = document.querySelector("#viewodd");
+
+            function checkNumInArray(numToCheck) {
+                let found = false;
+
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i] == numToCheck) {
+                        found = true;
+                        break;
+                    }
+                }
+                return found;
+            }
+            function addToArray(num) {
+                let added = true;
+                arr.push(num);
+                return true;
+            }
+            function removeFromArray(num) {
+                let removed = false;
+                let index = -1;
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i] == num) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index >= 0) {
+                    arr.splice(index, 1);//index position,how many elements to be deleted
+                    removed = true;
+                }
+                return removed;
+            }
+            function updateInArray(oldNo, newNo) {
+                let updated = false;
+                if (!checkNumInArray(newNo)) {
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i] == oldNo) {
+                            arr[i] = newNo;
+                            updated = true;
+                            break;
+                        }
+                    }
+                }
+                return updated;
+            }
+            function getArrayElements() {
+                let elements = "";
+                for (let i = 0; i < arr.length; i++) {
+                    elements += arr[i] + " ";
+                }
+                return elements;
+            }
+            function getOddElements() {
+                let elements = "";
+                for (let i = 0; i < arr.length; i++) {
+                    if (i % 2 == 0) {
+                        elements += arr[i] + " "
+                    }
+                }
+                return elements;
+            }
+
+            //setting up the blur event on textbox
+            const tbox = document.querySelector("#tbox");//assigned the entered value in textbox too tbox
+
+
+            // add number if enetered no. is not found
+
+            tbox.addEventListener('blur', () => {
+                let num = document.querySelector("#tbox").value;
+                let found = checkNumInArray(num);
+
+                if (!found) {     //not true(false)
+                    document.querySelector("#add").disabled = false;
+                    document.querySelector("#edit").disabled = true;
+                    document.querySelector("#delete").disabled = true;
+                    document.querySelector("#viewall").disabled = true;
+                    document.querySelector("#viewodd").disabled = true;
+                    document.querySelector("#ans").innerHTML = "Number is new to be added";
+                }
+                else {
+                    document.querySelector("#ans").innerHTML = "Number already present..";
+                    document.querySelector("#add").disabled = true;
+                    document.querySelector("#edit").disabled = false;
+                    document.querySelector("#delete").disabled = false;
+                    document.querySelector("#viewall").disabled = true;
+                    document.querySelector("#viewodd").disabled = true;
+                }
+
+                // document.getElementById("one").innerHTML = arr;
+            });
+
+            // add number
+
+            b1.addEventListener("click", () => {
+                addORupdateORdeleteDONE = true;
+
+                console.log("add clicked");
+
+                let num = document.querySelector("#tbox").value;
+                let output = addToArray(num);
+
+                if (output) document.querySelector("#ans").innerHTML = "Number added to Array";
+                else document.querySelector("#ans").innerHTML = "Number not added to Array";
+
+                document.querySelector("#add").disabled = true;
+                document.querySelector("#edit").disabled = true;
+                document.querySelector("#delete").disabled = true;
+                document.querySelector("#viewall").disabled = true;
+                document.querySelector("#viewodd").disabled = true;
+
+                if (addORupdateORdeleteDONE) {
+                    document.querySelector("#viewall").disabled = false;
+                    document.querySelector("#viewodd").disabled = false;
+                }
+            });
+
+            // delete number
+            b3.addEventListener('click', () => {
+                addORupdateORdeleteDONE = true;
+
+                let num = document.querySelector("#tbox").value;
+                let output = removeFromArray(num);
+
+                if (output) document.querySelector("#ans").innerHTML = "Number removed from Array";
+                else document.querySelector("#ans").innerHTML = "Number not removed from Array";
+
+                document.querySelector("#add").disabled = true;
+                document.querySelector("#edit").disabled = true;
+                document.querySelector("#delete").disabled = true;
+                document.querySelector("#viewall").disabled = true;
+                document.querySelector("#viewodd").disabled = true;
+
+                if (addORupdateORdeleteDONE) {
+                    document.querySelector("#viewall").disabled = false;
+                    document.querySelector("#viewodd").disabled = false;
+                }
+            });
+
+            // change/update number
+            b2.addEventListener("click", () => {
+                addORupdateORdeleteDONE = true;
+
+                let num = document.querySelector("#tbox").value;
+                let newNum = window.prompt("Enter the new number : ");
+                let output = updateInArray(num, newNum);
+
+                if (output) document.querySelector("#ans").innerHTML = "Number updated in Array";
+                else document.querySelector("#ans").innerHTML = "Number not updated in Array";
+
+                document.querySelector("#add").disabled = true;
+                document.querySelector("#edit").disabled = true;
+                document.querySelector("#delete").disabled = true;
+                document.querySelector("#viewall").disabled = true;
+                document.querySelector("#viewodd").disabled = true;
+
+                if (addORupdateORdeleteDONE) {
+                    document.querySelector("#viewall").disabled = false;
+                    document.querySelector("#viewodd").disabled = false;
+                }
+            });
+
+            // show all numbers in array
+            b4.addEventListener("click", () => {
+                let output = getArrayElements();
+                document.querySelector("#one").innerText = output;
+            });
+
+            // show odd elements in array
+            b5.addEventListener("click", () => {
+                let output = getOddElements();
+                document.querySelector("#one").innerText = output;
+            });
+
+            // document.getElementById("one").innerHTML = arr;
+
+        });
+    </script>
+    <p id="one">Array will be displyaed here!!!</p>
+</body>
+
+</html>
