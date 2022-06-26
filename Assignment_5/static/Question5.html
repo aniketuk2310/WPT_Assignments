@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <input type="number" placeholder="account nnumber" id="accno">
+    <span id="bal"></span>
+
+    <script>
+        $(()=>{
+            $("#accno").blur(()=>{
+                let input = {accno:$("#accno").val()};
+                $.ajax({
+                    data: input,
+                    url:"http://localhost:3333/getBalance",
+                    type: 'get',
+                    datatype : 'json',
+                    success : (data)=>{
+                        if (data.status) {
+                            $("#bal").text(data.balance);
+                        } else {
+                            $("#bal").text("Invalid Acc.NO.");
+                        }
+                    },
+                    error : (error)=>{
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
